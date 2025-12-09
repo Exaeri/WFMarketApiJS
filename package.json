@@ -1,0 +1,15 @@
+{
+  "name": "wfmarketapijs",
+  "version": "1.0.0",
+  "description": "A small js client with some methods for working with warframe.market api",
+  "license": "ISC",
+  "author": "Exaeri",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.13.2"
+  }
+}
