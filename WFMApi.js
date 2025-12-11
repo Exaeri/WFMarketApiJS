@@ -132,7 +132,7 @@ export default class WFMApi {
         console.error(logMessage);
 
         if(errorInfo.statusText === 'Unauthorized') {
-            return { error: true, message: 'Authorization error. JWT cookie is probably incorrect'};
+            throw { error: true, message: 'Authorization error. JWT cookie is probably incorrect'};
         }
         throw errorInfo;
     }
@@ -323,14 +323,20 @@ export default class WFMApi {
     /**
      * Get top 5 orders for a specific item
      * @param {string} itemSlug - Item Slug name.
-     * @param {boolean} [maxedMod] - Is mod/mystic rank maxed (optional).
+     * @param {boolean} [maxRank] - Is mod/arcane rank maxed (optional).
      * @returns {Promise<object>} - Return object with top 5 sell and buy orders.
      */
-    static async getTopItemOrders(itemSlug, maxedMod = false) {
+    static async getTopItemOrders(itemSlug, maxRank = false) {
         if(!itemSlug) throw new Error('Item Slug is required');
         let url = `${this.#apiUrl}/orders/item/${itemSlug}/top`;
-        if (maxedMod) {
-            url += '?rank=5';
+    
+        if(maxRank) {
+            let item = await this.getItemInfo(itemSlug);
+            if (Number.isInteger(item.maxRank)) {
+                url += `?rank=${item.maxRank}`;
+            } else {
+                console.warn(`\x1b[33m[Warning]\x1b[0m Item "${itemSlug}" has no ranks. Use \x1b[33mmaxRank\x1b[0m argument only for items with ranks like mods/arcanes.`);
+            }
         }
 
         const options = {
