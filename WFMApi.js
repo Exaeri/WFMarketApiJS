@@ -128,11 +128,11 @@ export default class WFMApi {
             errorInfo.code = 'NO_RESPONSE';
         }
 
-        const logMessage = `Request failed in ${context}. ${errorInfo.message?.request} (${errorInfo.status || errorInfo.code})`;
+        const logMessage = `Request failed in \x1b[33m${context}\x1b[0m method. ${errorInfo.message?.request} (${errorInfo.status || errorInfo.code})`;
         console.error(logMessage);
 
         if(errorInfo.statusText === 'Unauthorized') {
-            throw { error: true, message: 'Authorization error. JWT cookie is probably incorrect'};
+            throw { error: true, message: `\x1b[31mAuthorization error. JWT cookie is probably incorrect\x1b[0m`};
         }
         throw errorInfo;
     }
