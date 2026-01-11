@@ -11,7 +11,7 @@ export default class WFMApi {
     static #crossplay = 'true';
     static #platform = {value: 'pc', available: ['pc', 'ps4', 'xbox', 'switch', 'mobile']};
     static #cooldown = {delay: 500, lastRequestTime: 0};
-    static #itemsMaps = {idToSlug: new Map(), slugToId: new Map(), cached: false};
+    static #itemsMaps = {idToSlug: new Map(), slugToId: new Map(), slugToName: new Map(), cached: false};
 
     /**
      * Set JWT cookie for authentication
@@ -119,10 +119,11 @@ export default class WFMApi {
 
         const items = await this.getAllItems();
         for (const item of items) {
-            if (!item.id || !item.slug) continue;
+            if (!item.id || !item.slug || !item.i18n[this.language].name) continue;
 
             this.#itemsMaps.idToSlug.set(item.id, item.slug);
             this.#itemsMaps.slugToId.set(item.slug, item.id);
+            this.#itemsMaps.slugToName.set(item.slug, item.i18n[this.language].name);
         }
 
         this.#itemsMaps.cached = true;
@@ -154,6 +155,20 @@ export default class WFMApi {
 
         await this.#checkItemsCache();
         return this.#itemsMaps.slugToId.get(itemSlug) ?? null;
+    }
+
+    /**
+     * Get item name in selected language by item slug.
+     *
+     * @param {string} itemSlug
+     * @returns {Promise<string|null>}
+     */
+    static async getItemNameBySlug(itemSlug) {
+        if (!itemSlug) throw new Error('itemSlug is required');
+        if(typeof itemSlug !== 'string') throw new Error('itemSlug must be string');
+
+        await this.#checkItemsCache();
+        return this.#itemsMaps.slugToName.get(itemSlug) ?? null;
     }
 
     /**
