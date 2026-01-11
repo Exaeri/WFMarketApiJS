@@ -4,7 +4,7 @@ import WFMApi from "./WFMApi.js";
 WFMApi.language = 'ru'; // ko, ru, de, fr, pt, zh-hans, zh-hant, es, it, pl, uk, en Default: en
 WFMApi.crossplay = true; // true or false Default: true
 WFMApi.platform = 'pc'; // pc, ps4, xbox, switch, mobile Default: pc
-WFMApi.cooldown = 750; // Cooldown between requests in milliseconds Default: 750
+WFMApi.cooldown = 750; // Cooldown between requests in milliseconds Default: 500
 
 //==========================AUTHENTICATION via JWT Cookie (Required for some requests)==========================
 const MYJWT = '...JWT cookie value...';

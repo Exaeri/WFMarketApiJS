@@ -11,6 +11,7 @@ export default class WFMApi {
     static #crossplay = 'true';
     static #platform = {value: 'pc', available: ['pc', 'ps4', 'xbox', 'switch', 'mobile']};
     static #cooldown = {delay: 500, lastRequestTime: 0};
+    static #itemsMaps = {idToSlug: new Map(), slugToId: new Map(), cached: false};
 
     /**
      * Set JWT cookie for authentication
@@ -103,6 +104,54 @@ export default class WFMApi {
         }
 
         return headers;
+    }
+
+    /**
+     * Getting the full item list from the API on first call and builds
+     * maps for ID-to-slug and slug-to-ID methods.
+     *
+     * @private
+     * @async
+     * @returns {Promise<void>}
+     */
+    static async #checkItemsCache() {
+        if (this.#itemsMaps.cached) return;
+
+        const items = await this.getAllItems();
+        for (const item of items) {
+            if (!item.id || !item.slug) continue;
+
+            this.#itemsMaps.idToSlug.set(item.id, item.slug);
+            this.#itemsMaps.slugToId.set(item.slug, item.id);
+        }
+
+        this.#itemsMaps.cached = true;
+    }
+
+    /**
+     * Get item slug by item ID.
+     *
+     * @param {string} itemId
+     * @returns {Promise<string|null>}
+     */
+    static async getItemSlugById(itemId) {
+        if (!itemId) throw new Error('itemId is required');
+
+        await this.#checkItemsCache();
+        return this.#itemsMaps.idToSlug.get(itemId) ?? null;
+    }
+
+    /**
+     * Get item ID by item slug.
+     *
+     * @param {string} itemSlug
+     * @returns {Promise<string|null>}
+     */
+    static async getItemIdBySlug(itemSlug) {
+        if (!itemSlug) throw new Error('itemSlug is required');
+
+        await this.#checkItemsCache();
+        return this.#itemsMaps.slugToId.get(itemSlug) ?? null;
     }
 
     /**
