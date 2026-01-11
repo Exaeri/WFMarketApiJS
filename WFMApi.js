@@ -136,6 +136,7 @@ export default class WFMApi {
      */
     static async getItemSlugById(itemId) {
         if (!itemId) throw new Error('itemId is required');
+        if (typeof itemId !== 'string') throw new Error('itemId must be string');
 
         await this.#checkItemsCache();
         return this.#itemsMaps.idToSlug.get(itemId) ?? null;
@@ -149,6 +150,7 @@ export default class WFMApi {
      */
     static async getItemIdBySlug(itemSlug) {
         if (!itemSlug) throw new Error('itemSlug is required');
+        if(typeof itemSlug !== 'string') throw new Error('itemSlug must be string');
 
         await this.#checkItemsCache();
         return this.#itemsMaps.slugToId.get(itemSlug) ?? null;
