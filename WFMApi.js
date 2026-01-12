@@ -198,7 +198,7 @@ export default class WFMApi {
         console.error(logMessage);
 
         if(errorInfo.statusText === 'Unauthorized') {
-            throw { error: true, message: `\x1b[31mAuthorization error. JWT cookie is probably incorrect\x1b[0m`};
+            throw { error: true, message: `\x1b[31mAuthorization error. JWT cookie is probably incorrect.\x1b[0m`};
         }
         throw errorInfo;
     }
