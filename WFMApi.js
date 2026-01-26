@@ -194,7 +194,7 @@ export default class WFMApi {
             errorInfo.code = 'NO_RESPONSE';
         }
 
-        const logMessage = `Request failed in \x1b[33m${context}\x1b[0m method. ${errorInfo.message?.request} (${errorInfo.status || errorInfo.code})`;
+        const logMessage = `Request failed in \x1b[33m${context}\x1b[0m method. (${errorInfo.status || errorInfo.code})`;
         console.error(logMessage);
 
         if(errorInfo.statusText === 'Unauthorized') {
