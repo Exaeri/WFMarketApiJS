@@ -62,7 +62,7 @@ export default class WFMApi {
      */
     static set cooldown(time) {
         if(!Number.isInteger(time) || time <= 0) throw new Error('Cooldown must be number and >350');
-        if(time <= 350) throw new Error('3 requests per second is the limit, cooldown must be >350ms');
+        if(time < 350) throw new Error('3 requests per second is the limit, WFMApi cooldown must be >=350ms');
         this.#cooldown.delay = time;
     }
 
