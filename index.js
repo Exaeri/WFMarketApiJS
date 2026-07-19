@@ -6,6 +6,9 @@ WFMApi.crossplay = true; // true or false Default: true
 WFMApi.platform = 'pc'; // pc, ps4, xbox, switch, mobile Default: pc
 WFMApi.cooldown = 750; // Cooldown between requests in milliseconds Default: 500
 
+//==========================SET YOUR USER-AGENT==========================
+WFMApi.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36 OPR/133.0.0.0 (Edition Yx GX)'
+
 //==========================AUTHENTICATION via JWT Cookie (Required for some requests)==========================
 const MYJWT = '...JWT cookie value...';
 WFMApi.JWT = MYJWT

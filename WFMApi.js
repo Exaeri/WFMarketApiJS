@@ -12,6 +12,7 @@ export default class WFMApi {
     static #platform = {value: 'pc', available: ['pc', 'ps4', 'xbox', 'switch', 'mobile']};
     static #cooldown = {delay: 500, lastRequestTime: 0};
     static #itemsMaps = {idToSlug: new Map(), slugToId: new Map(), slugToName: new Map(), cached: false};
+    static #reqUserAgent = 'PostmanRuntime/7.53.0'
 
     /**
      * Set JWT cookie for authentication
@@ -21,6 +22,16 @@ export default class WFMApi {
         if(typeof cookie !== 'string') throw new Error('JWT cookie must be string');
         if(cookie.length === 0) throw new Error('JWT cookie must not be empty');
         this.#JWTcookie = cookie;
+    }
+
+    /**
+     * Set custom User-Agent for requests
+     * @param {string} UserAgent - User-Agent value
+     */
+    static set userAgent(userAgent) {
+        if(typeof userAgent !== 'string') throw new Error('User-Agent must be string');
+        if(userAgent.length === 0) throw new Error('User-Agent must not be empty');
+        this.#reqUserAgent = userAgent;
     }
 
     /**
@@ -96,7 +107,8 @@ export default class WFMApi {
             'language': this.#language.value,
             'crossplay': this.#crossplay,
             'platform': this.#platform.value,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'User-Agent': this.#reqUserAgent
         };
 
         if (this.#JWTcookie) {
@@ -208,6 +220,7 @@ export default class WFMApi {
 
         try {
             const response = await axios.request(options);
+            console.log(options.headers["User-Agent"])
             return response.data?.data;
         } catch (error) {
             return this.#handleErrors(error, context);
