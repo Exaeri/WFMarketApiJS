@@ -5,6 +5,7 @@ A lightweight and easy-to-use JavaScript client for the Warframe.Market v2 API.
 <h3>🚀 Features</h3>
 ✔ Support for v2 endpoints<br>
 ✔ JWT cookie authentication<br>
+✔ Set custom User-Agent for requests<br>
 ✔ Automatic request cooldown limiter (per API rules)<br>
 ✔ Custom headers: platform, language, crossplay<br>
 ✔ Simple promise-based API<br>
@@ -29,6 +30,8 @@ WFM is designed to cater to users across various gaming platforms. It currently 
 <br>
 <b>WFMApi.cooldown</b><br>
 Request cooldown in milliseconds<br><br>
+<b>WFMApi.userAgent</b><br>
+Custom User-Agent for requests<br><br>
 <b>WFMApi.JWT</b><br>
 Authentication for using Auth-Required Methods
 <br><br>
@@ -38,6 +41,7 @@ WFMApi.platform = 'pc';
 WFMApi.crossplay = true;
 WFMApi.cooldown = 750;
 WFMApi.JWT = 'your_token';
+WFMApi.userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)';
 </code>
 
 <h3>📚 API Methods</h3>
