@@ -220,7 +220,7 @@ export default class WFMApi {
 
         try {
             const response = await axios.request(options);
-            console.log(options.headers["User-Agent"])
+            //console.log(options.headers["User-Agent"])
             return response.data?.data;
         } catch (error) {
             return this.#handleErrors(error, context);
